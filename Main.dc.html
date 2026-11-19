@@ -307,26 +307,14 @@ button{font-family:inherit}
 </section>
 
 <section class="gut wrap">
-<div style="width:min(100%,860px); margin:0 auto; display:flex; flex-direction:column; gap:clamp(56px,8vw,120px)">
+<div style="width:min(100%,760px); margin:0 auto; display:flex; flex-direction:column; gap:clamp(48px,7vw,84px)">
 
-<div class="pp" style="{{cur.g1.frame}}" onMouseMove="{{cur.g1.move}}" onMouseLeave="{{cur.g1.leave}}"><div class="cv" style="position:absolute; inset:0; background:#000"><div class="par" style="position:absolute; left:0; right:0; top:-10%; bottom:-10%"><div style="{{cur.g1.mv}}"><div class="flow" style="{{cur.g1.bg}}"></div></div></div><div class="grain" style="{{cur.g1.grainBox}}"><svg aria-hidden="true" width="100%" height="100%" style="display:block"><filter id="nz" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#nz)"></rect></svg></div></div></div>
-
-<div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:48px 6%">
-<div style="flex:0 1 38%; min-width:220px; display:flex; flex-direction:column; gap:clamp(36px,5vw,64px)">
-<div class="pp" style="{{cur.g2.frame}}" onMouseMove="{{cur.g2.move}}" onMouseLeave="{{cur.g2.leave}}"><div class="cv" style="position:absolute; inset:0; background:#000"><div class="par" style="position:absolute; left:0; right:0; top:-10%; bottom:-10%"><div style="{{cur.g2.mv}}"><div class="flow" style="{{cur.g2.bg}}"></div></div></div><div class="grain" style="{{cur.g2.grainBox}}"><svg aria-hidden="true" width="100%" height="100%" style="display:block"><filter id="nz" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#nz)"></rect></svg></div></div></div>
 <div class="rv">
 <p class="lbl" style="margin:0 0 12px 0">Approach</p>
 <p style="margin:0; font-size:15px; line-height:1.5; text-transform:uppercase">{{cur.approach}}</p>
 </div>
-</div>
-<div style="flex:0 1 46%; min-width:240px; padding-top:clamp(0px,5vw,72px)">
-<div class="pp" style="{{cur.g3.frame}}" onMouseMove="{{cur.g3.move}}" onMouseLeave="{{cur.g3.leave}}"><div class="cv" style="position:absolute; inset:0; background:#000"><div class="par" style="position:absolute; left:0; right:0; top:-10%; bottom:-10%"><div style="{{cur.g3.mv}}"><div class="flow" style="{{cur.g3.bg}}"></div></div></div><div class="grain" style="{{cur.g3.grainBox}}"><svg aria-hidden="true" width="100%" height="100%" style="display:block"><filter id="nz" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#nz)"></rect></svg></div></div></div>
-</div>
-</div>
 
-<div class="pp" style="{{cur.g4.frame}}" onMouseMove="{{cur.g4.move}}" onMouseLeave="{{cur.g4.leave}}"><div class="cv" style="position:absolute; inset:0; background:#000"><div class="par" style="position:absolute; left:0; right:0; top:-10%; bottom:-10%"><div style="{{cur.g4.mv}}"><div class="flow" style="{{cur.g4.bg}}"></div></div></div><div class="grain" style="{{cur.g4.grainBox}}"><svg aria-hidden="true" width="100%" height="100%" style="display:block"><filter id="nz" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#nz)"></rect></svg></div></div></div>
-
-<div class="rv" style="max-width:460px; margin-left:auto">
+<div class="rv">
 <p class="lbl" style="margin:0 0 12px 0">Outcome</p>
 <p style="margin:0; font-size:15px; line-height:1.5; text-transform:uppercase">{{cur.result}}</p>
 </div>
@@ -342,8 +330,6 @@ button{font-family:inherit}
 </sc-for>
 </div>
 </div>
-
-<div class="pp" style="{{cur.g5.frame}}" onMouseMove="{{cur.g5.move}}" onMouseLeave="{{cur.g5.leave}}"><div class="cv" style="position:absolute; inset:0; background:#000"><div class="par" style="position:absolute; left:0; right:0; top:-10%; bottom:-10%"><div style="{{cur.g5.mv}}"><div class="flow" style="{{cur.g5.bg}}"></div></div></div><div class="grain" style="{{cur.g5.grainBox}}"><svg aria-hidden="true" width="100%" height="100%" style="display:block"><filter id="nz" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#nz)"></rect></svg></div></div></div>
 
 </div>
 </section>
@@ -465,7 +451,7 @@ const SB_CATS = [
 
 const DATA = [
   {
-    id: 'nimbus', short: 'Nimbus', title: 'Nimbus Agentic Support Triage', repo: 'https://github.com/search?q=user%3AMitul30M+Nimbus&type=repositories',
+    id: 'nimbus', short: 'Nimbus', title: 'Nimbus Agentic Support Triage', repo: 'https://github.com/Mitul30M/saas-ticketing-agentic-sm-backend',
     tagline: 'The LLM proposes; deterministic code disposes.',
     intro: 'An agentic support desk built with FastAPI, LangGraph and PostgreSQL. The agent reads a ticket, retrieves grounded knowledge, triages it and drafts a reply, then stops at a human approval gate before a refund or plan change can move. An operator dashboard traces every run, reviews drafts and approves executions, refunds and escalations.',
     approach: 'The graph is policy, not model choice: intake, injection screen, triage, a deterministic plan, typed tools, hybrid retrieval, a grounding check, draft and proposal. Only a separate executor moves money or plan state, and database triggers refuse an approval without a recorded human decision.',
@@ -474,7 +460,7 @@ const DATA = [
     metrics: [['Tickets evaluated', '43 / 43'], ['Triage accuracy', '0.951'], ['Tool-choice F1', '0.971'], ['Escalation recall', '0.950'], ['Unapproved executions', '0'], ['Latency p50 / p95', '4.59 s / 6.35 s']]
   },
   {
-    id: 'quickdrop', short: 'QuickDrop', title: 'QuickDrop Rider Payout Dispute Desk', repo: 'https://github.com/search?q=user%3AMitul30M+QuickDrop&type=repositories',
+    id: 'quickdrop', short: 'QuickDrop', title: 'QuickDrop Rider Payout Dispute Desk', repo: 'https://github.com/Mitul30M/QuickDrop-Rider-Payment-HelpDesk-Agent',
     tagline: 'Rider claims are hints, not payout authority.',
     intro: 'A FastAPI payout-dispute service on Postgres. The model extracts intent, trip IDs, dates and language; deterministic code resolves identity, verifies source data, computes rupees and applies the seven-day window and the daily auto-pay cap. An ops dashboard traces runs, owns drafts, approvals and escalations, and reconciles the PaySwift sandbox.',
     approach: 'Everything that touches money is code: identity, IST dates, rupee amounts, eligibility and the pay, approval or escalation decision. The LLM can read a message and draft a reply, never authorise a payout. Duplicate delivery stays idempotent and provider timeouts reconcile before retry.',
@@ -528,14 +514,11 @@ const homeCfg = [
   { item: 'flex:0 1 31%; min-width:260px; margin-top:56px; margin-left:2%;', ar: '4 / 3' },
   { item: 'flex:0 1 32%; min-width:260px; margin-top:24px;', ar: '1 / 1' }
 ];
-const gArs = ['4 / 3', '1 / 1', '3 / 4', '4 / 4.6', '16 / 10'];
-
 const n = DATA.length;
 const idx = Math.max(0, DATA.findIndex((p) => p.id === view));
 
 const list = DATA.map((p, i) => {
   const pal = PAL[i % PAL.length];
-  const g = gArs.map((ar, k) => cover(PAL[(i + k) % PAL.length], i * 10 + k + 2, frameCss(ar), p.id + '-g' + k));
   const prev = DATA[(i + n - 1) % n];
   const next = DATA[(i + 1) % n];
   return {
@@ -558,7 +541,6 @@ const list = DATA.map((p, i) => {
     wide: cover(pal, i * 10 + 1, 'position:relative; overflow:hidden; isolation:isolate; border-radius:22px; width:100%; aspect-ratio:16 / 9; min-height:320px;', p.id + '-wide'),
     sticky: 'calc(64px + ' + (i * 18) + 'px)',
     hero: cover(pal, i * 10 + 9, 'position:absolute; inset:0;', p.id + '-hero'),
-    g1: g[0], g2: g[1], g3: g[2], g4: g[3], g5: g[4],
     prevTitle: prev.short,
     nextTitle: next.short,
     goPrev: go(prev.id),
