@@ -763,7 +763,14 @@ _initBalls(box) {
     }
     if (!any) break;
   }
-  this._ballPhys = { W, H, bodies, hover: false, mx: -9999, my: -9999, scale };
+  this._ballPhys = { W, H, bodies, hover: false, mx: -9999, my: -9999, scale, fall: false, rest: bodies.map((b) => ({ x: b.x, y: b.y })) };
+  if (this.state && this.state.fall) {
+    this._ballPhys.fall = true;
+    for (const b of bodies) {
+      b.awake = true;
+      b.vy += 60 + Math.random() * 60;
+    }
+  }
   box.style.setProperty('--sbscale', scale.toFixed(3));
   this._ballBind(box);
   this.setState({ bsInit: (this._bsInit = (this._bsInit || 0) + 1) });
@@ -851,6 +858,10 @@ _ballStep(dt) {
   const B = P.bodies;
   const pad = 6;
   let active = false;
+  for (const b of B) {
+    b.px = b.x;
+    b.py = b.y;
+  }
 
   if (P.hover) {
     for (const b of B) {
@@ -869,26 +880,24 @@ _ballStep(dt) {
   }
 
   const drag = Math.pow(0.012, dt);
+  const wall = P.fall ? 0.35 : 0.6;
   for (const b of B) {
     if (!b.awake) continue;
     active = true;
+    if (P.fall) b.vy += 1800 * dt;
     b.x += b.vx * dt;
     b.y += b.vy * dt;
     b.vx *= drag;
     b.vy *= drag;
-    if (b.x - b.r < pad) { b.x = pad + b.r; b.vx = Math.abs(b.vx) * 0.6; }
-    if (b.x + b.r > P.W - pad) { b.x = P.W - pad - b.r; b.vx = -Math.abs(b.vx) * 0.6; }
-    if (b.y - b.r < pad) { b.y = pad + b.r; b.vy = Math.abs(b.vy) * 0.6; }
-    if (b.y + b.r > P.H - pad) { b.y = P.H - pad - b.r; b.vy = -Math.abs(b.vy) * 0.6; }
+    if (b.x - b.r < pad) { b.x = pad + b.r; b.vx = Math.abs(b.vx) * wall; }
+    if (b.x + b.r > P.W - pad) { b.x = P.W - pad - b.r; b.vx = -Math.abs(b.vx) * wall; }
+    if (b.y - b.r < pad) { b.y = pad + b.r; b.vy = Math.abs(b.vy) * wall; }
+    if (b.y + b.r > P.H - pad) { b.y = P.H - pad - b.r; b.vy = -Math.abs(b.vy) * wall; }
     const sp2 = b.vx * b.vx + b.vy * b.vy;
     if (sp2 > 300 * 300) {
       const s = 300 / Math.sqrt(sp2);
       b.vx *= s;
       b.vy *= s;
-    } else if (sp2 < 36) {
-      b.vx = 0;
-      b.vy = 0;
-      b.awake = false;
     }
   }
 
@@ -907,22 +916,43 @@ _ballStep(dt) {
         const nx = dx / d;
         const ny = dy / d;
         const push = (min - d) / 2;
-        a.x -= nx * push;
-        a.y -= ny * push;
-        b.x += nx * push;
-        b.y += ny * push;
+        if (P.fall && !a.awake) {
+          b.x += nx * push * 2;
+          b.y += ny * push * 2;
+        } else if (P.fall && !b.awake) {
+          a.x -= nx * push * 2;
+          a.y -= ny * push * 2;
+        } else {
+          a.x -= nx * push;
+          a.y -= ny * push;
+          b.x += nx * push;
+          b.y += ny * push;
+        }
         const rvx = b.vx - a.vx;
         const rvy = b.vy - a.vy;
         const vn = rvx * nx + rvy * ny;
         if (vn < 0) {
-          const imp = vn * 0.65;
-          a.vx += imp * nx;
-          a.vy += imp * ny;
-          b.vx -= imp * nx;
-          b.vy -= imp * ny;
+          if (P.fall && !b.awake) {
+            a.vx += vn * nx;
+            a.vy += vn * ny;
+          } else if (P.fall && !a.awake) {
+            b.vx -= vn * nx;
+            b.vy -= vn * ny;
+          } else {
+            const imp = vn * (P.fall ? 0.5 : 0.65);
+            a.vx += imp * nx;
+            a.vy += imp * ny;
+            b.vx -= imp * nx;
+            b.vy -= imp * ny;
+          }
         }
-        a.awake = true;
-        b.awake = true;
+        if (P.fall) {
+          if (!a.awake && Math.abs(vn) > 40) a.awake = true;
+          if (!b.awake && Math.abs(vn) > 40) b.awake = true;
+        } else {
+          a.awake = true;
+          b.awake = true;
+        }
         active = true;
       }
     }
@@ -935,6 +965,17 @@ _ballStep(dt) {
     if (b.y + b.r > P.H - pad) b.y = P.H - pad - b.r;
   }
 
+  for (const b of B) {
+    if (!b.awake) continue;
+    const sp2 = b.vx * b.vx + b.vy * b.vy;
+    const moved = Math.abs(b.x - b.px) + Math.abs(b.y - b.py);
+    if (sp2 < 36 || (P.fall && moved < 0.05)) {
+      b.vx = 0;
+      b.vy = 0;
+      b.awake = false;
+    }
+  }
+
   return active;
 }
 
@@ -943,6 +984,31 @@ _stopBalls() {
   if (this._ballRaf) { cancelAnimationFrame(this._ballRaf); this._ballRaf = 0; }
   this._ballUnbind();
   this._ballPhys = null;
+}
+
+_ballsFall(on) {
+  const P = this._ballPhys;
+  if (!P) return;
+  if (on) {
+    P.fall = true;
+    for (const b of P.bodies) {
+      b.awake = true;
+      b.vx += (Math.random() - 0.5) * 40;
+      b.vy += 60 + Math.random() * 60;
+    }
+    this._ballRun();
+    return;
+  }
+  P.fall = false;
+  if (this._ballRaf) { cancelAnimationFrame(this._ballRaf); this._ballRaf = 0; }
+  for (let i = 0; i < P.bodies.length; i++) {
+    const b = P.bodies[i];
+    if (P.rest && P.rest[i]) { b.x = P.rest[i].x; b.y = P.rest[i].y; }
+    b.vx = 0;
+    b.vy = 0;
+    b.awake = false;
+  }
+  this._ballPaint();
 }
 
 _start() {
@@ -966,15 +1032,18 @@ _start() {
   if (reduce) {
     for (let k = 0; k < 600; k++) this._step(1 / 60);
     this.setState({ fall: true, tick: (this._tick = (this._tick || 0) + 1) });
+    this._ballsFall(true);
     return;
   }
   this.setState({ fall: true });
+  this._ballsFall(true);
   this._run();
 }
 
 _reset() {
   if (this._raf) { cancelAnimationFrame(this._raf); this._raf = 0; }
   this._phys = null;
+  this._ballsFall(false);
   this.setState({ fall: false });
 }
 
